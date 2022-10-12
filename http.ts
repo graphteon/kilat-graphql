@@ -58,7 +58,7 @@ export function GraphQLHTTP<Req extends GQLRequest = GQLRequest, Ctx extends { r
     } else if (typeList.length === 1 && typeList[0] === 'text/html') {
       return new Response('Not Acceptable', { status: 406, headers: new Headers(headers) })
     } else {
-      params = request.json()
+      params = request.clone().json()
     }
 
     try {

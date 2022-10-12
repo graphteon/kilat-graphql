@@ -10,15 +10,20 @@ const schema = buildSchema(`
   }
 `)
 
-const rootValue = { hello: (_root: undefined, _args: unknown) => `Hello World! ${JSON.stringify(_args)}` } ;
+const rootValue = {
+  hello: async (req: any, context: any) => {
+    console.log(await context.request.clone().json()) //get request body
+    return `Hello World!`
+  }
+};
 const server = new Server();
 server.post(
-    "/graphql",
-    async (ctx: any, next: any) => {
-        const resp = await GraphQLHTTP<Request>({ schema, rootValue, context: (request) => ({ request }) })(ctx.req);
-        ctx.res = resp;
-        await next();
-    },
+  "/graphql",
+  async (ctx: any, next: any) => {
+    const resp = await GraphQLHTTP({ schema, rootValue, context: (request) => ({ request }) })(ctx.req);
+    ctx.res = resp;
+    await next();
+  },
 );
 console.log(`server listen to http://localhost:${port}`);
 await server.listen({ port });
