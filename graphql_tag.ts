@@ -1,5 +1,4 @@
-import { parse, DocumentNode, DefinitionNode, Location } from './mod.ts';
-
+import { parse, DocumentNode, DefinitionNode, Location } from 'https://deno.land/x/kilat@1.2.0/mod.ts';
 // A map docString -> graphql document
 const docCache = new Map<string, DocumentNode>()
 
